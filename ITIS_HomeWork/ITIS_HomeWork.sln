@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30218.91
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Triangle", "Triangle\Triangle.csproj", "{9130C687-230C-4F3B-AD12-4AF750B65E52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Triangle", "Triangle\Triangle.csproj", "{9130C687-230C-4F3B-AD12-4AF750B65E52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watch", "Watch\Watch.csproj", "{742979D4-CBB7-4FD3-A648-0F4E022CAC47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Watch", "Watch\Watch.csproj", "{742979D4-CBB7-4FD3-A648-0F4E022CAC47}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SymbolCircle", "SymbolCircle\SymbolCircle.csproj", "{185381A9-B5F6-42D6-AA56-09C81BB45E3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointInSquare", "PointInSquare\PointInSquare.csproj", "{10FF9519-C625-49B7-B6A9-AAEC73AECF0D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointInCircle", "PointInCircle\PointInCircle.csproj", "{71BEAB1F-D102-4AFC-890E-6F96E5898E77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitConverter", "DigitConverter\DigitConverter.csproj", "{D3EE7CAD-0684-4EBD-8247-0F25770809CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{742979D4-CBB7-4FD3-A648-0F4E022CAC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{742979D4-CBB7-4FD3-A648-0F4E022CAC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{742979D4-CBB7-4FD3-A648-0F4E022CAC47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{185381A9-B5F6-42D6-AA56-09C81BB45E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{185381A9-B5F6-42D6-AA56-09C81BB45E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{185381A9-B5F6-42D6-AA56-09C81BB45E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{185381A9-B5F6-42D6-AA56-09C81BB45E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FF9519-C625-49B7-B6A9-AAEC73AECF0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FF9519-C625-49B7-B6A9-AAEC73AECF0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FF9519-C625-49B7-B6A9-AAEC73AECF0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FF9519-C625-49B7-B6A9-AAEC73AECF0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71BEAB1F-D102-4AFC-890E-6F96E5898E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BEAB1F-D102-4AFC-890E-6F96E5898E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BEAB1F-D102-4AFC-890E-6F96E5898E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BEAB1F-D102-4AFC-890E-6F96E5898E77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EE7CAD-0684-4EBD-8247-0F25770809CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EE7CAD-0684-4EBD-8247-0F25770809CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EE7CAD-0684-4EBD-8247-0F25770809CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EE7CAD-0684-4EBD-8247-0F25770809CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
