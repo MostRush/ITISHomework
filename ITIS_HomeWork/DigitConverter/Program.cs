@@ -4,19 +4,43 @@ namespace DigitConverter
 {
     static class Converter
     {
-        static public string DecimalToBinary(int _decimal)
+        public static string AnyToAny(string s, int from, int to)
         {
-            string _answer = string.Empty;
+            const string symbols = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            while (_decimal > 0)
+            string result = string.Empty;
+            int discharge = 0, temporary = 0, valuePower = 1;
+
+            for (int i = s.Length - 1; i >= 0; i--)
             {
-                var discharge = _decimal % 2;
-                _answer += discharge.ToString();
+                discharge = Convert.ToInt32(s[i]);
+                if ((discharge >= 48) && (discharge <= 57))
+                    discharge = discharge - 48;
+                else
+                {
+                    if ((discharge >= 65) && (discharge <= 90))
+                        discharge = discharge - 65;
+                    else
+                    {
+                        if ((discharge >= 97) && (discharge <= 122))
+                            discharge = discharge - 97;
+                    }
+                }
 
-                _decimal = _decimal % 2;
+                temporary = temporary + discharge * valuePower;
+                valuePower = valuePower * from;
             }
 
-            return _answer;
+            result = string.Empty;
+
+            while (temporary != 0)
+            {
+                discharge = temporary % to;
+                result = symbols[discharge] + result;
+                temporary = temporary / to;
+            }
+
+            return result;
         }
     }
 
@@ -24,7 +48,15 @@ namespace DigitConverter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Converter.DecimalToBinary(256));
+            Console.WriteLine(Converter.AnyToAny("256", 10, 2));
+            Console.WriteLine(Converter.AnyToAny("256", 10, 8));
+            Console.WriteLine(Converter.AnyToAny("256", 10, 16));
+            Console.WriteLine(Converter.AnyToAny("F3A2", 16, 10));
+            Console.WriteLine(Converter.AnyToAny("35478", 8, 10));
+            Console.WriteLine(Converter.AnyToAny("1001010", 2, 10));
+
+            Console.WriteLine(Converter.AnyToAny("12345", 5, 2));
+            Console.WriteLine(Converter.AnyToAny("FSAKFKAJWL", 30, 2));
         }
     }
 }
