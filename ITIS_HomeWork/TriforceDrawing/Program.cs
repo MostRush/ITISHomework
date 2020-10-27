@@ -53,7 +53,7 @@ namespace TriforceDrawing
 
         public string UpdateHeight(int height)
         {
-            Height = height;
+            Height = height % 2 == 0 ? height : height + 1;
             Teamplate = CreateTeamplate();
             return Teamplate;
         }
@@ -65,7 +65,7 @@ namespace TriforceDrawing
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(new Triforce(60));
+            Console.WriteLine(new Triforce(30));
             Console.ReadKey();
         }
     }
