@@ -4,7 +4,7 @@ namespace BarAndHole
 {
     struct Point
     {
-        public string
+        
     }
 
     class Bar
@@ -16,7 +16,6 @@ namespace BarAndHole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
         }
     }
 }

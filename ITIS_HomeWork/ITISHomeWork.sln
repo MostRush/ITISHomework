@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarAndHole", "BarAndHole\Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuadraticEquation", "QuadraticEquation\QuadraticEquation.csproj", "{92A5CC52-1C14-404A-897B-9F3AD243FA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McLarenRanks", "McLarenRanks\McLarenRanks.csproj", "{60E02FC4-04C8-459B-92AF-B307E0A834DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McLarenRanks", "McLarenRanks\McLarenRanks.csproj", "{60E02FC4-04C8-459B-92AF-B307E0A834DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriforceDrawing", "TriforceDrawing\TriforceDrawing.csproj", "{D96142ED-3461-4AD3-BEB7-8A30E568BF81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevenshteinDistance", "LevenshteinDistance\LevenshteinDistance.csproj", "{9B03B6BE-EDB6-4D78-BF54-CBCEA6A0747C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{60E02FC4-04C8-459B-92AF-B307E0A834DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E02FC4-04C8-459B-92AF-B307E0A834DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E02FC4-04C8-459B-92AF-B307E0A834DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D96142ED-3461-4AD3-BEB7-8A30E568BF81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D96142ED-3461-4AD3-BEB7-8A30E568BF81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D96142ED-3461-4AD3-BEB7-8A30E568BF81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D96142ED-3461-4AD3-BEB7-8A30E568BF81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B03B6BE-EDB6-4D78-BF54-CBCEA6A0747C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B03B6BE-EDB6-4D78-BF54-CBCEA6A0747C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B03B6BE-EDB6-4D78-BF54-CBCEA6A0747C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B03B6BE-EDB6-4D78-BF54-CBCEA6A0747C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
