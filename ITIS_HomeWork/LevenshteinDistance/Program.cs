@@ -9,7 +9,9 @@ namespace LevenshteinDistance
         {
             Console.SetWindowSize(100, 50);
             Console.CursorVisible = false; 
-            Console.WriteLine(LevenshteinDistance("Распердоввоавап43г58934", "ДилиБомыКомы3к цкщгц38гт83к "));
+            Console.WriteLine(LevenshteinDistance("Распердоввоа", "ДилиБомыКомы3к"));
+
+            Console.ReadKey();
         }
 
         public static int LevenshteinDistance(string string1, string string2)
