@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace FightingGame
@@ -10,36 +11,46 @@ namespace FightingGame
         {
             var firstPlayerKeys = new ControlKeys
             {
-                BlockAttack = ConsoleKey.A,
-                Test = ConsoleKey.W,
-                PirouetteAttack = ConsoleKey.D,
-                VortexAttack = ConsoleKey.S,
-                UseSkill = ConsoleKey.F
+                Test = ConsoleKey.F,
+                BlockAttack = ConsoleKey.S,
+                PirouetteAttack = ConsoleKey.W,
+                VortexAttack = ConsoleKey.D,
+                UseSkill = ConsoleKey.A
             };
 
             var secondPlayerKeys = new ControlKeys
             {
-                BlockAttack = ConsoleKey.LeftArrow,
-                Test = ConsoleKey.UpArrow,
-                PirouetteAttack = ConsoleKey.RightArrow,
-                VortexAttack = ConsoleKey.DownArrow,
-                UseSkill = ConsoleKey.Enter
+                Test = ConsoleKey.Enter,
+                BlockAttack = ConsoleKey.DownArrow,
+                PirouetteAttack = ConsoleKey.UpArrow,
+                VortexAttack = ConsoleKey.LeftArrow,
+                UseSkill = ConsoleKey.RightArrow
             };
 
-            var firstPlayer = new Player("Heralt", firstPlayerKeys, new Point(10, 10));
-            var secondPlayer = new Player("Vesemir", secondPlayerKeys, new Point(75, 10));
+            var isGameWithBot = true;
+
+            var firstPlayer = new Player("Heralt", firstPlayerKeys, new Point(13, 10));
+
+            Game gameObject;
+
+            if (isGameWithBot)
+            {
+                var secondPlayer = new Player("Vesemir", secondPlayerKeys, new Point(78, 10));
+                secondPlayer.Animations = InitAnimations(secondPlayer.Position, "character2");
+
+                gameObject = new Game(firstPlayer, secondPlayer);
+            }
+            else
+            {
+                var secondPlayer = new PlayerBot("Vesemir (Bot)", secondPlayerKeys, new Point(78, 10));
+                secondPlayer.Animations = InitAnimations(secondPlayer.Position, "character2");
+
+                gameObject = new Game(firstPlayer, secondPlayer);
+            }
 
             firstPlayer.Animations = InitAnimations(firstPlayer.Position, "character1");
-            secondPlayer.Animations = InitAnimations(secondPlayer.Position, "character2");
-
-            var tasks = new List<Task>();
-
-            var game = new Game(firstPlayer, secondPlayer);
-            var t3 = game.StartGame();
-
-            tasks.Add(t3);
-
-            await Task.WhenAll(tasks);
+            
+            await gameObject.StartGameAsync();
         }
 
         static public List<Animation> InitAnimations(Point position, string character)
@@ -51,7 +62,9 @@ namespace FightingGame
                 "pirouette_attack",
                 "armed_handle",
                 "vortex_attack",
-                "poof_die"
+                "poof_die",
+                "block_attack",
+                "set_block"
             };
 
             foreach (var name in animNames)

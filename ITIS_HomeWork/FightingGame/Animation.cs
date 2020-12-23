@@ -60,7 +60,7 @@ namespace FightingGame
             return frames;
         }
 
-        public async Task Play()
+        public async Task PlayAsync()
         {
             this.Stop();
 

@@ -20,44 +20,67 @@ namespace FightingGame
         }
     }
 
-    enum AttackType
+    enum ActionType
     {
+        Died,
+        Handle,
+        UseSkill,
         BlockAttack,
         PirouetteAttack,
         VortexAttack,
-        UseSkill
     }
 
     class Player
     {
-        public ControlKeys KeyBinds { get; set; }
+        public ControlKeys? KeyBinds { get; set; }
         public Game GameObject { get; set; }
         public Player Rival { get; set; }
         public Point Position { get; set; }
         public List<Animation> Animations { get; set; }
         public bool IsInBlock { get; private set; }
+        public ActionType CurrentAction { get; set; }
 
         public string Name { get; set; }
-        public int Health { get; set; }
-        public double Adrenaline { get; set; }
+        public int MaxHealth { get; set; }
+        public double MaxAdrenaline { get; set; }
 
-        public Player(string name, ControlKeys keyBinds, Point point, int health = 100, int adrenaline = 0)
+        private int health = 100;
+        private double adrenaline = 0;
+
+        public int Health
+        {
+            get { return health; }
+            set
+            {
+                health = value < 0 ? 0 : value > MaxHealth ? MaxHealth : value;
+            }
+        }
+        public double Adrenaline
+        {
+            get { return adrenaline; }
+            set
+            {
+                adrenaline = value < 0 ? 0 : value > 3 ? 3 : value;
+            }
+        }
+
+        public Player(string name, ControlKeys? keyBinds, Point point, int maxHealth = 100, int maxAdrenaline = 3)
         {
             Name = name;
-            Health = health;
-            Adrenaline = adrenaline;
             Position = point;
+            Health = MaxHealth = health;
+            MaxAdrenaline = maxAdrenaline;
 
             this.KeyBinds = keyBinds;
         }
 
-        private async Task PlayAnim(string animName)
+        private async Task PlayAnimAsync(string animName)
         {
             foreach (var anim in Animations)
                 anim.Stop();
 
             var animation = Animations.FirstOrDefault(x => x.Name.Equals(animName));
-            await animation.Play();
+            await animation.PlayAsync();
         }
 
         public void ChageAllAnimColors(ConsoleColor color)
@@ -66,7 +89,7 @@ namespace FightingGame
                 animation.Color = color;
         }
 
-        private async Task Flashing(ConsoleColor firstColor, ConsoleColor secondColor, int times, int delay)
+        private async Task FlashingAsync(ConsoleColor firstColor, ConsoleColor secondColor, int times, int delay)
         {
             await Task.Run(() =>
             {
@@ -94,93 +117,145 @@ namespace FightingGame
 
         public void Initialization()
         {
-            _ = PlayAnim("armed_handle");
+            CurrentAction = ActionType.Handle;
+            _ = PlayAnimAsync("armed_handle");
         }
 
-        public async void PirouetteAttack()
+        public async void PirouetteAttackAsync()
         {
-            var random = new Random(DateTime.Now.Second);
+            if (CurrentAction == ActionType.Died) return;
+
+            if (CurrentAction != ActionType.Handle
+                && CurrentAction != ActionType.BlockAttack) return;
+
+            CurrentAction = ActionType.PirouetteAttack;
+            IsInBlock = false;
+            var random = new Random();
 
             if (!Rival.IsInBlock)
             {
-                _ = Task.Run(() =>
+                if (Rival.CurrentAction != ActionType.Died)
                 {
-                    Rival.Health -= random.Next(2, 4);
-
-                    _ = GameObject.InterfaceUpdate();
-
-                    Thread.Sleep(500);
-                    Rival.Health -= random.Next(2, 4);
-
+                    Rival.Health -= random.Next(6, 8);
                     Adrenaline += GetRandomNumber(0.1, 0.2);
-
-                    _ = GameObject.InterfaceUpdate();
-                });
+                }
             }
-
-            var color = Rival.IsInBlock ? ConsoleColor.Blue : ConsoleColor.Red;
-            _ = Rival.Flashing(color, ConsoleColor.Gray, 5, 150);
-
-            await PlayAnim("pirouette_attack");
-
-            _ = PlayAnim("armed_handle");
-
-            if (Rival.Health < 0)
-                _ = Rival.PlayAnim("poof_die");
-
-            _ = GameObject.InterfaceUpdate();
-        }
-
-        public async void VortexAttack()
-        {
-            var random = new Random(DateTime.Now.Second);
-
-            if (!Rival.IsInBlock)
+            else
             {
-                Rival.Health -= random.Next(2, 4);
-                Adrenaline += GetRandomNumber(0.2, 0.3);
+                _ = Rival.PlayAnimAsync("block_attack");
             }
 
             var color = Rival.IsInBlock ? ConsoleColor.Blue : ConsoleColor.Red;
-            var task1 = Rival.Flashing(color, ConsoleColor.Gray, 3, 100);
-            var task2 = PlayAnim("vortex_attack");
+            var task1 = Rival.FlashingAsync(color, ConsoleColor.Gray, 5, 150);
+            var task2 = PlayAnimAsync("pirouette_attack");
 
             await Task.WhenAll(new[] { task1, task2 });
 
-            _ = PlayAnim("armed_handle");
+            CurrentAction = ActionType.Handle;
+            _ = PlayAnimAsync(IsInBlock ? "block_attack" : "armed_handle");
 
-            if (Rival.Health < 0)
-                _ = Rival.PlayAnim("poof_die");
+            if (Rival.Health <= 0 && Rival.CurrentAction != ActionType.Died)
+            {
+                _ = Rival.PlayAnimAsync("poof_die");
+                Rival.CurrentAction = ActionType.Died;
+            }
 
-            _ = GameObject.InterfaceUpdate();
+            _ = GameObject.InterfaceUpdateAsync();
         }
 
-        public async void BlockAttack()
+        public async void VortexAttackAsync()
         {
-            await Task.Run(() =>
+            if (CurrentAction == ActionType.Died) return;
+
+            if (CurrentAction != ActionType.Handle
+                && CurrentAction != ActionType.BlockAttack) return;
+
+            CurrentAction = ActionType.VortexAttack;
+            IsInBlock = false;
+            var random = new Random();
+
+            if (!Rival.IsInBlock)
             {
-                IsInBlock = true;
+                if (Rival.CurrentAction != ActionType.Died)
+                {
+                    Rival.Health -= random.Next(3, 4);
+                    Adrenaline += GetRandomNumber(0.2, 0.3);
+                }
+            }
+            else
+            {
+                _ = Rival.PlayAnimAsync("block_attack");
+            }
 
-                Thread.Sleep(500);
+            var color = Rival.IsInBlock ? ConsoleColor.Blue : ConsoleColor.Red;
+            var task1 = Rival.FlashingAsync(color, ConsoleColor.Gray, 3, 100);
+            var task2 = PlayAnimAsync("vortex_attack");
 
-                IsInBlock = false;
-            });
+            await Task.WhenAll(new[] { task1, task2 });
+
+            CurrentAction = ActionType.Handle;
+            _ = PlayAnimAsync(IsInBlock ? "block_attack" : "armed_handle");
+
+            if (Rival.Health <= 0 && Rival.CurrentAction != ActionType.Died)
+            {
+                _ = Rival.PlayAnimAsync("poof_die");
+                Rival.CurrentAction = ActionType.Died;
+            }
+
+            _ = GameObject.InterfaceUpdateAsync();
         }
 
         public void UseSkill()
         {
-            var random = new Random(DateTime.Now.Second);
+            if (CurrentAction == ActionType.Died) return;
 
-            if (Adrenaline >= 3 && !IsInBlock)
+            if (CurrentAction != ActionType.Handle
+                && CurrentAction != ActionType.BlockAttack) return;
+
+            CurrentAction = ActionType.UseSkill;
+
+            if (Adrenaline >= 3 && !IsInBlock && Rival.CurrentAction != ActionType.Died)
             {
-                Rival.Health -= random.Next(12, 16);
+                IsInBlock = false;
+                var random = new Random();
+
+                Rival.Health -= random.Next(13, 17);
                 Adrenaline = 0;
+
+                _ = PlayAnimAsync("armed_handle");
+
+                CurrentAction = ActionType.Handle;
+
+                if (Rival.Health <= 0)
+                {
+                    _ = Rival.PlayAnimAsync("poof_die");
+                    Rival.CurrentAction = ActionType.Died;
+                }
+
+                _ = GameObject.InterfaceUpdateAsync();
             }
 
-            if (Rival.Health < 0)
-                _ = Rival.PlayAnim("poof_die");
+            CurrentAction = ActionType.Handle;
+        }
 
-            _ = GameObject.InterfaceUpdate();
+        public async void SetBlockedAsync()
+        {
+            if (CurrentAction == ActionType.Died) return;
+
+            if (CurrentAction != ActionType.Handle) return;
+
+            IsInBlock = !IsInBlock;
+
+            if (IsInBlock)
+            {
+                await PlayAnimAsync("set_block");
+                CurrentAction = ActionType.BlockAttack;
+            }
+            else
+            {
+                CurrentAction = ActionType.Handle;
+                _ = PlayAnimAsync("armed_handle");
+            }
         }
 
         public override string ToString()

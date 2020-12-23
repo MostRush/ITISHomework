@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Media;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace FightingGame
 {
     class Game
     {
         public static object locker = new object();
+
+        public bool IsGameWithBot { get; private set; }
 
         Player player1;
         Player player2;
@@ -27,9 +28,14 @@ namespace FightingGame
 
             this.player1.GameObject = this;
             this.player2.GameObject = this;
+
+            if ()
+            {
+
+            }
         }
 
-        public async Task StartGame()
+        public async Task StartGameAsync()
         {
             Console.SetWindowSize(155, 45);
 
@@ -41,8 +47,8 @@ namespace FightingGame
             Sounds = this.InitSounds();
             StaticObjects = this.InitStaticObjects();
 
-            _ = DrawStaticObjects();
-            _ = InterfaceUpdate();
+            _ = DrawStaticObjectsAsync();
+            _ = InterfaceUpdateAsync();
 
             await Task.WhenAll(new[] { movemontTask });
         }
@@ -93,46 +99,115 @@ namespace FightingGame
 
                 foreach (var player in players)
                 {
-                    if (key == player.KeyBinds.Test) player.TestMethod();
+                    if (key == player.KeyBinds?.Test) player.TestMethod();
 
-                    if (key == player.KeyBinds.BlockAttack) player.BlockAttack();
+                    if (key == player.KeyBinds?.BlockAttack) player.SetBlockedAsync();
 
-                    if (key == player.KeyBinds.PirouetteAttack) player.PirouetteAttack();
+                    if (key == player.KeyBinds?.PirouetteAttack) player.PirouetteAttackAsync();
 
-                    if (key == player.KeyBinds.VortexAttack) player.VortexAttack();
+                    if (key == player.KeyBinds?.VortexAttack) player.VortexAttackAsync();
 
-                    if (key == player.KeyBinds.UseSkill) player.UseSkill();
+                    if (key == player.KeyBinds?.UseSkill) player.UseSkill();
                 }
             }
         }
 
-        public async Task InterfaceUpdate()
+        public async Task InterfaceUpdateAsync()
         {
             await Task.Run(() =>
             {
                 lock (Game.locker)
                 {
+                    /* Drawing health bar */
+
+                    DrawHealthBarLine(new Point(17, 5), player1, false);
+                    DrawHealthBarLine(new Point(88, 5), player2, true);
+
+                    DrawAdrenalineLine(new Point(6, 8), player1, false);
+                    DrawAdrenalineLine(new Point(124, 8), player2, true);
+
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    Console.SetCursorPosition(20, 5);
+                    Console.SetCursorPosition(20, 2);
                     Console.Write(new string(' ', 40));
-                    Console.SetCursorPosition(20, 5);
+                    Console.SetCursorPosition(20, 2);
                     Console.WriteLine(player1);
 
-                    Console.SetCursorPosition(100, 5);
+                    Console.SetCursorPosition(100, 2);
                     Console.Write(new string(' ', 40));
-                    Console.SetCursorPosition(100, 5);
+                    Console.SetCursorPosition(100, 2);
                     Console.WriteLine(player2);
+
                 }
             });
         }
 
-        public async Task DrawStaticObjects()
+        private void DrawHealthBarLine(Point position, Player player, bool isReversive)
+        {
+            var previousColor = Console.ForegroundColor;
+
+            var percentHealth = 100 / player.MaxHealth * player.Health;
+
+            var healthLineColor = percentHealth <= 25 ? ConsoleColor.Red :
+                percentHealth <= 50 ? ConsoleColor.Yellow : ConsoleColor.Green;
+
+            Console.CursorTop = position.Y;
+            Console.CursorLeft = position.X;
+            Console.ForegroundColor = healthLineColor;
+
+            if (isReversive)
+            {
+                Console.Write(new string(' ', (int)Math.Round((player.MaxHealth - player.Health) / 2d)));
+                Console.Write(new string('/', (int)Math.Round(player.Health / 2d)));
+            }
+            else
+            {
+                Console.Write(new string('\\', (int)Math.Round(player.Health / 2d)));
+                Console.Write(new string(' ', (int)Math.Round((player.MaxHealth - player.Health) / 2d)));
+            }
+
+            Console.ForegroundColor = previousColor;
+        }
+
+        private void DrawAdrenalineLine(Point position, Player player, bool isReversive)
+        {
+            var previousColor = Console.ForegroundColor;
+
+            var percentAdrenaline = 100 / player.MaxAdrenaline * player.Adrenaline;
+
+            var adrLineColor = player.Adrenaline >= player.MaxAdrenaline ?
+                ConsoleColor.Magenta : ConsoleColor.DarkMagenta;
+
+            Console.CursorTop = position.Y;
+            Console.CursorLeft = position.X;
+
+            if (isReversive)
+            {
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write(new string(' ', (int)Math.Round((100 - percentAdrenaline) / 4d)));
+                Console.ForegroundColor = adrLineColor;
+                Console.Write(new string('/', (int)Math.Round(percentAdrenaline / 4d)));
+            }
+            else
+            {
+                Console.ForegroundColor = adrLineColor;
+                Console.Write(new string('\\', (int)Math.Round(percentAdrenaline / 4d)));
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write(new string(' ', (int)Math.Round((100 - percentAdrenaline) / 4d)));
+            }
+
+            Console.ForegroundColor = previousColor;
+        }
+
+        public async Task DrawStaticObjectsAsync()
         {
             await Task.Run(() =>
             {
                 lock (Game.locker)
                 {
+                    var prevForeColor = Console.ForegroundColor;
+                    var prevBackColor = Console.BackgroundColor;
+
                     Console.SetCursorPosition(0, 0);
                     Console.Write(new string('_', 155));
 
@@ -155,12 +230,20 @@ namespace FightingGame
 
                     foreach (var str in strings)
                     {
-                        Console.CursorLeft = 95;
+                        Console.CursorLeft = 86;
                         Console.WriteLine(str);
                     }
 
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
                     Console.SetCursorPosition(0, 37);
                     Console.Write(StaticObjects["floor"]);
+
+                    Console.BackgroundColor = prevBackColor;
+                    Console.ForegroundColor = prevForeColor;
+
+                    Console.SetCursorPosition(0, 37);
+                    Console.Write(new string('=', 155));
                 }
             });
         }
