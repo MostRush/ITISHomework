@@ -121,7 +121,7 @@ namespace FightingGame
             _ = PlayAnimAsync("armed_handle");
         }
 
-        public async void PirouetteAttackAsync()
+        public async Task PirouetteAttackAsync()
         {
             if (CurrentAction == ActionType.Died) return;
 
@@ -163,7 +163,7 @@ namespace FightingGame
             _ = GameObject.InterfaceUpdateAsync();
         }
 
-        public async void VortexAttackAsync()
+        public async Task VortexAttackAsync()
         {
             if (CurrentAction == ActionType.Died) return;
 
@@ -205,7 +205,7 @@ namespace FightingGame
             _ = GameObject.InterfaceUpdateAsync();
         }
 
-        public void UseSkill()
+        public async Task UseSkill()
         {
             if (CurrentAction == ActionType.Died) return;
 
@@ -238,7 +238,7 @@ namespace FightingGame
             CurrentAction = ActionType.Handle;
         }
 
-        public async void SetBlockedAsync()
+        public async Task SetBlockedAsync()
         {
             if (CurrentAction == ActionType.Died) return;
 

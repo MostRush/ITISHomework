@@ -1,4 +1,5 @@
 ﻿using System;
+using Vector3DClass;
 
 namespace ClassMatrix3x3
 {

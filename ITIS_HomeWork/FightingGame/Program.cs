@@ -35,21 +35,21 @@ namespace FightingGame
 
             if (isGameWithBot)
             {
-                var secondPlayer = new Player("Vesemir", secondPlayerKeys, new Point(78, 10));
+                var secondPlayer = new PlayerBot("Vesemir (Bot)", secondPlayerKeys, new Point(78, 10));
                 secondPlayer.Animations = InitAnimations(secondPlayer.Position, "character2");
 
                 gameObject = new Game(firstPlayer, secondPlayer);
             }
             else
             {
-                var secondPlayer = new PlayerBot("Vesemir (Bot)", secondPlayerKeys, new Point(78, 10));
+                var secondPlayer = new Player("Vesemir", secondPlayerKeys, new Point(78, 10));
                 secondPlayer.Animations = InitAnimations(secondPlayer.Position, "character2");
 
                 gameObject = new Game(firstPlayer, secondPlayer);
             }
 
             firstPlayer.Animations = InitAnimations(firstPlayer.Position, "character1");
-            
+
             await gameObject.StartGameAsync();
         }
 

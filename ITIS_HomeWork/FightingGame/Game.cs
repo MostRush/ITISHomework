@@ -29,10 +29,21 @@ namespace FightingGame
             this.player1.GameObject = this;
             this.player2.GameObject = this;
 
-            if ()
-            {
+            IsGameWithBot = (typeof(PlayerBot).Equals(player2.GetType()));
+        }
 
-            }
+        public Game(Player player1, PlayerBot player2)
+        {
+            this.player1 = player1;
+            this.player2 = player2;
+
+            this.player1.Rival = player2;
+            this.player2.Rival = player1;
+
+            this.player1.GameObject = this;
+            this.player2.GameObject = this;
+
+            IsGameWithBot = (typeof(PlayerBot).Equals(player2.GetType()));
         }
 
         public async Task StartGameAsync()
@@ -46,6 +57,9 @@ namespace FightingGame
 
             Sounds = this.InitSounds();
             StaticObjects = this.InitStaticObjects();
+
+            if (IsGameWithBot)
+                _ = (player2 as PlayerBot).AsyncBotActions();
 
             _ = DrawStaticObjectsAsync();
             _ = InterfaceUpdateAsync();
@@ -95,7 +109,7 @@ namespace FightingGame
             {
                 var key = Console.ReadKey(true).Key;
 
-                var players = new[] { player1, player2 };
+                var players = IsGameWithBot ? new[] { player1 } : new[] { player1, player2 };
 
                 foreach (var player in players)
                 {
@@ -137,7 +151,6 @@ namespace FightingGame
                     Console.Write(new string(' ', 40));
                     Console.SetCursorPosition(100, 2);
                     Console.WriteLine(player2);
-
                 }
             });
         }
