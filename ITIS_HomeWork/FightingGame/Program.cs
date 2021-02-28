@@ -27,7 +27,7 @@ namespace FightingGame
                 UseSkill = ConsoleKey.RightArrow
             };
 
-            var isGameWithBot = true;
+            var isGameWithBot = false;
 
             var firstPlayer = new Player("Heralt", firstPlayerKeys, new Point(13, 10));
 

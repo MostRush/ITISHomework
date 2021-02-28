@@ -67,11 +67,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightingGame", "FightingGam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabyrinthGenerator", "LabyrinthGenerator\LabyrinthGenerator.csproj", "{72D40F4F-C5F1-41D9-AB6B-36D2655AEBD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComplexNumber", "ComplexNumber\ComplexNumber.csproj", "{43B8A6BE-D5FD-4D7F-A0D7-36B45216585D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComplexNumber", "ComplexNumber\ComplexNumber.csproj", "{43B8A6BE-D5FD-4D7F-A0D7-36B45216585D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassMatrix3x3", "ClassMatrix3x3\ClassMatrix3x3.csproj", "{51CF865E-3CA1-4C90-80B2-9D6EB28357B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassMatrix3x3", "ClassMatrix3x3\ClassMatrix3x3.csproj", "{51CF865E-3CA1-4C90-80B2-9D6EB28357B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vector3DClass", "Vector3DClass\Vector3DClass.csproj", "{9E2CDCA8-F8F9-4087-9466-1F9858E85247}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vector3DClass", "Vector3DClass\Vector3DClass.csproj", "{9E2CDCA8-F8F9-4087-9466-1F9858E85247}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exceptions", "Exceptions\Exceptions.csproj", "{5ADD6E49-60C0-40D4-AADC-992F81515A1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexators", "Indexators\Indexators.csproj", "{197E6525-B784-4869-AC09-B201ED563745}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,6 +223,14 @@ Global
 		{9E2CDCA8-F8F9-4087-9466-1F9858E85247}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E2CDCA8-F8F9-4087-9466-1F9858E85247}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E2CDCA8-F8F9-4087-9466-1F9858E85247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ADD6E49-60C0-40D4-AADC-992F81515A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADD6E49-60C0-40D4-AADC-992F81515A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADD6E49-60C0-40D4-AADC-992F81515A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ADD6E49-60C0-40D4-AADC-992F81515A1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{197E6525-B784-4869-AC09-B201ED563745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{197E6525-B784-4869-AC09-B201ED563745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{197E6525-B784-4869-AC09-B201ED563745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{197E6525-B784-4869-AC09-B201ED563745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
